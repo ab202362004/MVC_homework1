@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MVC_homework1.ViewModels.ExpenseIncomeViewModel>
+@{
+    Layout = null;
+    int itemIndex = (int)ViewData["pageItemIndex"];
+}
+
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>#</th>
+
+
+        <th>
+            類別
+        </th>
+        <th>
+            日期
+        </th>
+        <th>
+            金額
+        </th>
+
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @itemIndex
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem=>item.ExpenseIncometype)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Money)
+
+            </td>
+
+        </tr>
+        itemIndex++;
+    }
+
+</table>

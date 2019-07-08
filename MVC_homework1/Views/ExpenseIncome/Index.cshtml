@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+@Html.Partial("_Create")
+<hr />
+@Html.Action("List", new { page = 1 , pageCount=20 })
