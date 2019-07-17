@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVC_homework1.ViewModels.ExpenseIncomeViewModel>
+﻿@model IPagedList<MVC_homework1.ViewModels.ExpenseIncomeViewModel>
 @{
     Layout = null;
     int itemIndex = (int)ViewData["pageItemIndex"];
@@ -53,3 +53,14 @@
     }
 
 </table>
+@Html.PagedListPager(Model,page=>Url.Action("List",new { page}),
+    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+        new AjaxOptions()
+        {
+            HttpMethod="GET" , UpdateTargetId = "",OnComplete = ""
+        }
+        )
+)
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+

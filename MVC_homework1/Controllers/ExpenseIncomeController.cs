@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC_homework1.ActionFilter;
 using MVC_homework1.Repository;
 using MVC_homework1.Service;
 using MVC_homework1.ViewModels;
+using PagedList;
 
 namespace MVC_homework1.Controllers
 {
@@ -24,8 +26,11 @@ namespace MVC_homework1.Controllers
         }
 
         // GET: ExpenseIncome
-        public ActionResult Index()
+        public ActionResult Index(int page=1)
         {
+
+            ViewData["PageIndex"] = page;
+
             return View();
         }
 
@@ -53,9 +58,8 @@ namespace MVC_homework1.Controllers
             return View();
         }
 
-
-        [ChildActionOnly]
-        public ActionResult List(int page = 1, int pageCount = 100)
+        [AjaxOnly]
+        public ActionResult List(int page = 1, int pageCount = 20)
         {
             //int page = 1;
             //int pageCount = 100;
@@ -63,12 +67,13 @@ namespace MVC_homework1.Controllers
             ViewData["pageItemIndex"] = skipCount + 1;
 
             var expenseIncomeList = _accountBookService.Lookup()
-                                                        .OrderByDescending(c => c.CreateTime)
-                                                        .Skip(skipCount)
-                                                        .Take(pageCount);
+                                                        .OrderByDescending(c => c.CreateTime);
+                                                        //.Skip(skipCount)
+                                                        //.Take(pageCount);
 
-            return View(expenseIncomeList.ToList());
+            return View(expenseIncomeList.ToPagedList(page, pageCount));
         }
+
 
 
     }
