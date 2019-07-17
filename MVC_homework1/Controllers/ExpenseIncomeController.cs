@@ -26,11 +26,8 @@ namespace MVC_homework1.Controllers
         }
 
         // GET: ExpenseIncome
-        public ActionResult Index(int page=1)
+        public ActionResult Index()
         {
-
-            ViewData["PageIndex"] = page;
-
             return View();
         }
 
