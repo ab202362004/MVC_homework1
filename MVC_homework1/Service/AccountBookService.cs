@@ -12,31 +12,42 @@ namespace MVC_homework1.Service
     public class AccountBookService
     {
         private readonly IRepository<AccountBook> _accountBookRepository;
-
+        private readonly IRepository<Classify> _classifyRepository;
         public AccountBookService(IUnitOfWork unitOfWork)
         {
             _accountBookRepository = new Repository<AccountBook>(unitOfWork);
+            _classifyRepository = new Repository<Classify>(unitOfWork);
         }
 
         public IQueryable<ExpenseIncomeViewModel> Lookup()
         {
             var source = _accountBookRepository.LookupAll();
-            var result = source.Select(c => new ExpenseIncomeViewModel()
-            {
-                ExpenseIncometype = c.Categoryyy==1?"支出":"收入",
-                CreateTime = c.Dateee,
-                Money = c.Amounttt,
-                Remark = c.Remarkkk
-            });
+            var kind = _classifyRepository.LookupAll().Where(c=>c.Kind== "account_kind");
+            var result = source
+
+            .Join(kind,
+                c => c.Categoryyy,
+                s => (s.Value),
+                (c, s) => new ExpenseIncomeViewModel()
+                {
+                    ExpenseIncometype = s.Desc,
+                    CreateTime = c.Dateee,
+                    Money = c.Amounttt,
+                    Remark = c.Remarkkk
+                }
+              );
+
+      
             return result;
         }
 
         public ExpenseIncomeViewModel GetSingle(Guid accountBookId)
         {
             var source = _accountBookRepository.GetSingle(d => d.Id == accountBookId);
+            var kind = _classifyRepository.LookupAll().Where(c => c.Kind == "account_kind");
             return new ExpenseIncomeViewModel
             {
-                ExpenseIncometype = source.Categoryyy == 1 ? "支出" : "收入",
+                ExpenseIncometype = kind.Where(c=>c.Value == source.Categoryyy).FirstOrDefault().Desc,
                 CreateTime = source.Dateee,
                 Money = source.Amounttt,
                 Remark = source.Remarkkk
@@ -45,11 +56,12 @@ namespace MVC_homework1.Service
 
         public void Add(ExpenseIncomeViewModel accountBook)
         {
+
             _accountBookRepository.Create(new AccountBook
             {
                 Id = Guid.NewGuid(),
-                Categoryyy = accountBook.ExpenseIncometype == "支出" ? 1 : 2,
-                Dateee = DateTime.Now,
+                Categoryyy = int.Parse(accountBook.ExpenseIncometype),
+                Dateee = accountBook.CreateTime,
                 Amounttt = (int)accountBook.Money,
                 Remarkkk = accountBook.Remark
             }) ;
@@ -57,10 +69,11 @@ namespace MVC_homework1.Service
 
         public void Edit(Guid id, ExpenseIncomeViewModel pageData)
         {
+
             var oldData = _accountBookRepository.GetSingle(d => d.Id == id);
             if (oldData != null)
             {
-                oldData.Categoryyy = pageData.ExpenseIncometype == "支出" ? 1 : 2;
+                oldData.Categoryyy = int.Parse(pageData.ExpenseIncometype);
                 oldData.Dateee = DateTime.Now;
                 oldData.Amounttt = (int)pageData.Money;
                 oldData.Remarkkk = pageData.Remark;

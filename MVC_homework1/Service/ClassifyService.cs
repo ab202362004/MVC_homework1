@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MVC_homework1.Models;
+using MVC_homework1.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,13 +10,23 @@ namespace MVC_homework1.Service
 {
     public class ClassifyService
     {
-
-        public List<SelectListItem> getExpenseIncomeTypeToSelectList()
+        private readonly IRepository<Classify> _classifyRepository;
+        public ClassifyService(IUnitOfWork unitOfWork)
         {
-            var typelist = new List<SelectListItem>();
-            typelist.Add(new SelectListItem { Text = "支出", Value = "支出" });
-            typelist.Add(new SelectListItem { Text = "收入", Value = "收入" });
-            return typelist;
+            _classifyRepository = new Repository<Classify>(unitOfWork);
+        }
+
+
+        public List<SelectListItem> getOptionToSelectList(string kind)
+        {
+            var OptionList = _classifyRepository.LookupAll().Where(c=>c.Kind == kind).Select(c =>
+                                  new SelectListItem()
+                                  {
+                                      Text = c.Desc,
+                                      Value = c.Value.ToString()
+
+                                  }).ToList();
+            return OptionList;
 
         }
 

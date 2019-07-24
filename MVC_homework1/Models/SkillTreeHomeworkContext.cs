@@ -13,6 +13,7 @@ namespace MVC_homework1.Models
         }
 
         public virtual DbSet<AccountBook> AccountBook { get; set; }
+        public virtual DbSet<Classify> Classify { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

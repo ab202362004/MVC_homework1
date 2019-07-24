@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MVC_homework1.ActionFilter;
+using MVC_homework1.Filters;
 using MVC_homework1.Repository;
 using MVC_homework1.Service;
 using MVC_homework1.ViewModels;
@@ -22,7 +22,7 @@ namespace MVC_homework1.Controllers
         {
             _unitOfWork = new UnitOfWork();
             _accountBookService = new AccountBookService(_unitOfWork);
-            _classifyService = new ClassifyService();
+            _classifyService = new ClassifyService(_unitOfWork);
         }
 
         // GET: ExpenseIncome
@@ -34,14 +34,14 @@ namespace MVC_homework1.Controllers
         [ChildActionOnly]
         public ActionResult Create()
         {
-            ViewData["TypeList"] = _classifyService.getExpenseIncomeTypeToSelectList();
+            ViewData["TypeList"] = _classifyService.getOptionToSelectList("account_kind");
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Money,ExpenseIncometype,Remark")]
+        public ActionResult Create([Bind(Include = "Money,ExpenseIncometype,CreateTime,Remark")]
                                    ExpenseIncomeViewModel expenseIncomeViewModel)
         {
             if (ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace MVC_homework1.Controllers
                 _unitOfWork.Commit();
                 ModelState.Clear();
             }
-            ViewData["TypeList"] = _classifyService.getExpenseIncomeTypeToSelectList();
+            ViewData["TypeList"] = _classifyService.getOptionToSelectList("account_kind");
 
             return View();
         }

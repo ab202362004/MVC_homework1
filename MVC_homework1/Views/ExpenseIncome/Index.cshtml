@@ -5,14 +5,17 @@
 }
 
 <br />
+@using (Ajax.BeginForm(new AjaxOptions { UpdateTargetId = "AccountData", Url = Url.Action("Create") }))
+{
+    @Html.Action("Create")
+}
 
-@Html.Action("Create")
 <hr />
-<div id="AccountData">
+<div id="AccountData" data-listsource="/ExpenseIncome/List">
 
 </div>
 @section scripts
 {
-<script src="~/Scripts/View/ExpenseIncome/ExpenseIncomePagedList.js"></script>
+    <script src="~/Scripts/View/ExpenseIncome/ExpenseIncomePagedList.js"></script>
 }
 @*@Html.Action("List", new { page = page , pageCount=20 })*@

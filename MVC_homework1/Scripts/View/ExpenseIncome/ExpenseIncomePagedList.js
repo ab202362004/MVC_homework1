@@ -6,18 +6,20 @@
 });
 
 var fetchPage = function (page) {
-    var pagedPartialUrl = '/ExpenseIncome/List';
+
+    
+    var pagedPartialUrl = $("[data-listsource]").data("listsource");
 
     $.get(pagedPartialUrl, { page: page }, function (data) {
 
         window.location.hash = page;
 
-        $('#AccountData').html(data);
+        $('[data-listsource]').html(data);
 
-        $('#AccountData .pagination li a').each(function (i, item) {
+        $("[data-listsource] .pagination li a").each(function (i, item) {
             var hyperLinkUrl = $(item).attr('href');
             if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
-                var pageNumber = $(item).attr('href').replace('/ExpenseIncome/List?page=', '');;
+                var pageNumber = $(item).attr('href').replace(pagedPartialUrl+'?page=', '');;
                 $(item).attr('href', '#').click(function (event) {
                     event.preventDefault();
                     $(event.target).attr('href');
