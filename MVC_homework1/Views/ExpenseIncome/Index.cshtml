@@ -5,9 +5,16 @@
 }
 
 <br />
-@using (Ajax.BeginForm(new AjaxOptions { UpdateTargetId = "AccountData", Url = Url.Action("Create") }))
+@using (Ajax.BeginForm("Create", new AjaxOptions
 {
-    @Html.Action("Create")
+    UpdateTargetId = "AccountCreate",
+    OnSuccess = "checkInsert(data)"
+}))
+{
+    <div id="AccountCreate">
+        @Html.Action("Create")
+    </div>
+
 }
 
 <hr />
@@ -16,6 +23,10 @@
 </div>
 @section scripts
 {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/View/ExpenseIncome/ExpenseIncomePagedList.js"></script>
+
 }
 @*@Html.Action("List", new { page = page , pageCount=20 })*@

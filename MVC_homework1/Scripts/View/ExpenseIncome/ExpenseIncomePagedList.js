@@ -1,9 +1,27 @@
 ﻿$(function () {
+
+    fetchPage(getPage());
+
+
+});
+function getPage() {
     var page = window.location.hash
         ? window.location.hash.slice(1)
         : 1;
-    fetchPage(page);
-});
+    return page;
+}
+function checkInsert() {
+
+        var page = window.location.hash
+            ? window.location.hash.slice(1)
+            : 1;
+    var result = $("[data-iscreate]").data("iscreate");
+    if (result === "True") {
+        fetchPage(1);
+    }
+    
+}
+
 
 var fetchPage = function (page) {
 

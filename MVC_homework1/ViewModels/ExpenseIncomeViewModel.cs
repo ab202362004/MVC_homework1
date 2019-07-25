@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MVC_homework1.ViewModels
 {
@@ -25,6 +26,7 @@ namespace MVC_homework1.ViewModels
         [Required]
         [StringLength(100)]
         [DataType(DataType.MultilineText)]
+        //[RemoteDoublePlus("RemarkCheck", "Valid", AreaReference.UseRoot,ErrorMessage = "備註 不得超過一百字!")]
         [DisplayName("備註")]
         public string Remark { get; set; }
 
