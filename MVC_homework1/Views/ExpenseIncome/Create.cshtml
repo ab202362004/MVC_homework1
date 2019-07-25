@@ -4,11 +4,10 @@
 }
 
 
-@using (Html.BeginForm())
-{
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+
+    <div class="form-horizontal" data-iscreate="@ViewData["IsCreate"]">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Money, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,5 +46,5 @@
             </div>
         </div>
     </div>
-}
+
 

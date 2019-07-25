@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ValidateSample.Filters
+namespace MVC_homework1.Filters
 {
     public class RemoteDoublePlusAttribute : RemoteAttribute
     {

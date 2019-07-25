@@ -28,12 +28,14 @@ namespace MVC_homework1.Controllers
         // GET: ExpenseIncome
         public ActionResult Index()
         {
+            
             return View();
         }
 
         [ChildActionOnly]
         public ActionResult Create()
         {
+            ViewData["IsCreate"] = false;
             ViewData["TypeList"] = _classifyService.getOptionToSelectList("account_kind");
             return View();
         }
@@ -44,13 +46,16 @@ namespace MVC_homework1.Controllers
         public ActionResult Create([Bind(Include = "Money,ExpenseIncometype,CreateTime,Remark")]
                                    ExpenseIncomeViewModel expenseIncomeViewModel)
         {
+            var IsCreate = false;
+            ViewData["TypeList"] = _classifyService.getOptionToSelectList("account_kind");
             if (ModelState.IsValid)
             {
                 _accountBookService.Add(expenseIncomeViewModel);
                 _unitOfWork.Commit();
                 ModelState.Clear();
+                IsCreate = true;
             }
-            ViewData["TypeList"] = _classifyService.getOptionToSelectList("account_kind");
+            ViewData["IsCreate"] = IsCreate;
 
             return View();
         }

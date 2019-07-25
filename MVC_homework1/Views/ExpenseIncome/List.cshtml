@@ -19,9 +19,9 @@
         <th style="white-space:nowrap;text-align:center">
             金額
         </th>
-        @*<th>
+        <th>
             備註
-        </th>*@
+        </th>
 
     </tr>
 
@@ -34,7 +34,7 @@
             </td>
 
 
-            <td style="white-space:nowrap;text-align:center">
+            <td style="white-space:nowrap;text-align:center" class="@Html.Raw(item.ExpenseIncometype == "支出" ? "text-warning" : "text-primary")">
                 @Html.DisplayFor(modelItem => item.ExpenseIncometype)
             </td>
             <td style="white-space:nowrap;text-align:center">
@@ -44,9 +44,9 @@
                 @Html.DisplayFor(modelItem => item.Money)
 
             </td>
-            @*<td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Remark)
-            </td>*@
+            </td>
 
         </tr>
         itemIndex++;
