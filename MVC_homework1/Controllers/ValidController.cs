@@ -19,5 +19,19 @@ namespace MVC_homework1.Controllers
             bool isValidate = remark.Length <=100;
             return Json(isValidate, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult DateCheck(DateTime createtime)
+        {
+            try
+            {
+                bool isValidate = createtime <= DateTime.Now;
+                return Json(isValidate, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
     }
 }
